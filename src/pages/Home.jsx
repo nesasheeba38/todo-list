@@ -1,15 +1,12 @@
 import { Container, Typography } from "@mui/material";
 
-import TodoForm from "../components/todoForm/TodoForm";
 import TodoList from "../components/todoList/TodoList";
-
 import { useTodo } from "../context/TodoContext";
 
 const Home = () => {
 
   const {
     todos,
-    addTodo,
     deleteTodo,
     toggleComplete,
     editTodo,
@@ -25,8 +22,6 @@ const Home = () => {
       >
         Todo List App
       </Typography>
-
-      <TodoForm addTodo={addTodo} />
 
       <TodoList
         todos={todos}

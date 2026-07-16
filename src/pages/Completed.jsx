@@ -4,6 +4,7 @@ import TodoList from "../components/todoList/TodoList";
 import { useTodo } from "../context/TodoContext";
 
 const Completed = () => {
+
   const {
     todos,
     deleteTodo,

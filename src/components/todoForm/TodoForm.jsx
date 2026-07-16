@@ -1,10 +1,19 @@
 import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const TodoForm = ({ addTodo }) => {
+import { useTodo } from "../../context/TodoContext";
+
+const TodoForm = () => {
+
   const [title, setTitle] = useState("");
 
+  const { addTodo } = useTodo();
+
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
+
     e.preventDefault();
 
     if (title.trim() === "") {
@@ -14,6 +23,8 @@ const TodoForm = ({ addTodo }) => {
     addTodo(title);
 
     setTitle("");
+
+    navigate("/");
   };
 
   return (
@@ -41,6 +52,7 @@ const TodoForm = ({ addTodo }) => {
       >
         Add Todo
       </Button>
+
     </Box>
   );
 };

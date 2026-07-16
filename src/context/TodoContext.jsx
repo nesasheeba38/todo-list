@@ -10,10 +10,7 @@ const TodoContext = createContext();
 
 export const TodoProvider = ({ children }) => {
 
-  const [todos, dispatch] = useReducer(
-    todoReducer,
-    []
-  );
+  const [todos, dispatch] = useReducer(todoReducer,[]);
 
   const addTodo = (title) => {
     dispatch({
