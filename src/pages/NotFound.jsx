@@ -1,9 +1,15 @@
+import { Typography } from "@mui/material";
+
 const NotFound = () => {
   return (
-    <div>
-      <h1>404 Page Not Found</h1>
-    </div>
-  )
-}
+    <Typography
+      variant="h3"
+      align="center"
+      sx={{ mt: 5 }}
+    >
+      404 - Page Not Found
+    </Typography>
+  );
+};
 
-export default NotFound
+export default NotFound;

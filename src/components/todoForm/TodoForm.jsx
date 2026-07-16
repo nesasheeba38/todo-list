@@ -32,9 +32,13 @@ const TodoForm = ({ addTodo }) => {
         variant="outlined"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        fullWidth
       />
 
-      <Button type="submit" variant="contained">
+      <Button
+        type="submit"
+        variant="contained"
+      >
         Add Todo
       </Button>
     </Box>

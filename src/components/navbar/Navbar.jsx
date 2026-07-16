@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <AppBar position="static">
+
       <Toolbar>
 
         <Typography
@@ -38,6 +39,7 @@ const Navbar = () => {
         </Button>
 
       </Toolbar>
+
     </AppBar>
   );
 };

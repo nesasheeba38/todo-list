@@ -4,7 +4,6 @@ import Layout from "../components/Layout/Layout";
 
 import Home from "../pages/Home";
 import AddTodo from "../pages/AddTodo";
-import EditTodo from "../pages/EditTodo";
 import Completed from "../pages/Completed";
 import NotFound from "../pages/NotFound";
 
@@ -22,11 +21,6 @@ const AppRoutes = () => {
         <Route
           path="/add"
           element={<AddTodo />}
-        />
-
-        <Route
-          path="/edit/:id"
-          element={<EditTodo />}
         />
 
         <Route

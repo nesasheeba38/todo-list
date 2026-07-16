@@ -1,3 +1,4 @@
+import { Box, Typography } from "@mui/material";
 import TodoItem from "../todoItem/TodoItem";
 
 const TodoList = ({
@@ -7,22 +8,20 @@ const TodoList = ({
   editTodo,
 }) => {
 
-    console.log("TodoList Todos:", todos);
   if (todos.length === 0) {
     return (
-      <h3
-        style={{
-          textAlign: "center",
-          marginTop: "20px",
-        }}
+      <Typography
+        variant="h6"
+        align="center"
+        sx={{ mt: 4 }}
       >
         No Todos Found
-      </h3>
+      </Typography>
     );
   }
 
   return (
-    <div style={{ marginTop: "20px" }}>
+    <Box sx={{ mt: 3 }}>
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}
@@ -32,7 +31,7 @@ const TodoList = ({
           editTodo={editTodo}
         />
       ))}
-    </div>
+    </Box>
   );
 };
 
