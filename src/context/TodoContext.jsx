@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   useReducer,
+  useCallback
 } from "react";
 
 import todoReducer from "../reducer/todoReducer";
@@ -12,21 +13,21 @@ export const TodoProvider = ({ children }) => {
 
   const [todos, dispatch] = useReducer(todoReducer,[]);
 
-  const addTodo = (title) => {
+  const addTodo = useCallback((title) => {
     dispatch({
       type: "ADD",
       payload: title,
     });
-  };
+  },[]);
 
-  const deleteTodo = (id) => {
+  const deleteTodo =useCallback((id) => {
     dispatch({
       type: "DELETE",
       payload: id,
     });
-  };
+  },[]);
 
-  const editTodo = (id, title) => {
+  const editTodo = useCallback((id, title) => {
     dispatch({
       type: "UPDATE",
       payload: {
@@ -34,21 +35,21 @@ export const TodoProvider = ({ children }) => {
         title,
       },
     });
-  };
+  },[]);
 
-  const toggleComplete = (id) => {
+  const toggleComplete = useCallback((id) => {
     dispatch({
-      type: "COMPLETE",
+      type:"COMPLETE",
       payload: id,
     });
-  };
+  },[]);
 
   return (
     <TodoContext.Provider
       value={{
         todos,
         addTodo,
-        deleteTodo,
+        deleteTodo,        
         editTodo,
         toggleComplete,
       }}

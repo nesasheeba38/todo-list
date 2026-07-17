@@ -1,5 +1,5 @@
 import { Container, Typography } from "@mui/material";
-
+import { useMemo } from "react";
 import TodoList from "../components/todoList/TodoList";
 import { useTodo } from "../context/TodoContext";
 
@@ -12,9 +12,9 @@ const Completed = () => {
     editTodo,
   } = useTodo();
 
-  const completedTodos = todos.filter(
-    (todo) => todo.completed
-  );
+  const completedTodos = useMemo(()=>{
+    return todos.filter((todo) => todo.completed);
+  },[todos])
 
   return (
     <Container maxWidth="md">

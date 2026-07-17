@@ -2,6 +2,7 @@ import { Container, Typography } from "@mui/material";
 
 import TodoList from "../components/todoList/TodoList";
 import { useTodo } from "../context/TodoContext";
+import TodoStats from "../components/TodoStats/TodoStats"
 
 const Home = () => {
 
@@ -22,6 +23,8 @@ const Home = () => {
       >
         Todo List App
       </Typography>
+
+      <TodoStats todos={todos} />
 
       <TodoList
         todos={todos}

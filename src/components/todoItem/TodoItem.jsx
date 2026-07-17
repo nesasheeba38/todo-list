@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,memo} from "react";
 
 import {
   Card,
@@ -139,4 +139,4 @@ const TodoItem = ({
   );
 };
 
-export default TodoItem;
+export default memo(TodoItem);
