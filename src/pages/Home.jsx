@@ -1,11 +1,17 @@
-import { Container, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+
+import {
+  Container,
+  Typography,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 
 import TodoList from "../components/todoList/TodoList";
+import TodoStats from "../components/TodoStats/TodoStats";
 import { useTodo } from "../context/TodoContext";
-import TodoStats from "../components/TodoStats/TodoStats"
 
 const Home = () => {
-
   const {
     todos,
     deleteTodo,
@@ -13,9 +19,33 @@ const Home = () => {
     editTodo,
   } = useTodo();
 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
+  }
+
   return (
     <Container maxWidth="md">
-
       <Typography
         variant="h4"
         align="center"
@@ -32,7 +62,6 @@ const Home = () => {
         toggleComplete={toggleComplete}
         editTodo={editTodo}
       />
-
     </Container>
   );
 };

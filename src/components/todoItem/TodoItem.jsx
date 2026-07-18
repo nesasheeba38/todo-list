@@ -1,4 +1,4 @@
-import { useState,memo} from "react";
+import { useState, memo } from "react";
 
 import {
   Card,
@@ -9,22 +9,25 @@ import {
   TextField,
 } from "@mui/material";
 
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import UndoIcon from "@mui/icons-material/Undo";
+import SaveIcon from "@mui/icons-material/Save";
+import CloseIcon from "@mui/icons-material/Close";
+
 const TodoItem = ({
   todo,
   deleteTodo,
   toggleComplete,
   editTodo,
 }) => {
-
   const [isEditing, setIsEditing] = useState(false);
 
   const [newTitle, setNewTitle] = useState(todo.title);
 
   const handleSave = () => {
-
-    if (newTitle.trim() === "") {
-      return;
-    }
+    if (newTitle.trim() === "") return;
 
     editTodo(todo.id, newTitle);
 
@@ -32,12 +35,19 @@ const TodoItem = ({
   };
 
   return (
-    <Card sx={{ mb: 2 }}>
-
+    <Card
+      elevation={4}
+      sx={{
+        mb: 2,
+        borderRadius: 3,
+        transition: "0.3s",
+        "&:hover": {
+          transform: "scale(1.02)",
+        },
+      }}
+    >
       <CardContent>
-
         {isEditing ? (
-
           <>
             <TextField
               fullWidth
@@ -52,10 +62,12 @@ const TodoItem = ({
                 display: "flex",
                 gap: 2,
                 mt: 2,
+                flexWrap: "wrap",
               }}
             >
               <Button
                 variant="contained"
+                startIcon={<SaveIcon />}
                 onClick={handleSave}
               >
                 Save
@@ -63,25 +75,26 @@ const TodoItem = ({
 
               <Button
                 variant="outlined"
-                onClick={() => setIsEditing(false)}
+                startIcon={<CloseIcon />}
+                onClick={() =>
+                  setIsEditing(false)
+                }
               >
                 Cancel
               </Button>
-
             </Box>
-
           </>
-
         ) : (
-
           <>
-
             <Typography
               variant="h6"
               sx={{
                 textDecoration: todo.completed
                   ? "line-through"
                   : "none",
+                color: todo.completed
+                  ? "text.secondary"
+                  : "text.primary",
               }}
             >
               {todo.title}
@@ -92,12 +105,19 @@ const TodoItem = ({
                 display: "flex",
                 gap: 2,
                 mt: 2,
+                flexWrap: "wrap",
               }}
             >
-
               <Button
                 variant="contained"
                 color="success"
+                startIcon={
+                  todo.completed ? (
+                    <UndoIcon />
+                  ) : (
+                    <CheckCircleIcon />
+                  )
+                }
                 onClick={() =>
                   toggleComplete(todo.id)
                 }
@@ -110,6 +130,7 @@ const TodoItem = ({
               <Button
                 variant="contained"
                 color="warning"
+                startIcon={<EditIcon />}
                 onClick={() =>
                   setIsEditing(true)
                 }
@@ -120,21 +141,17 @@ const TodoItem = ({
               <Button
                 variant="contained"
                 color="error"
+                startIcon={<DeleteIcon />}
                 onClick={() =>
                   deleteTodo(todo.id)
                 }
               >
                 Delete
               </Button>
-
             </Box>
-
           </>
-
         )}
-
       </CardContent>
-
     </Card>
   );
 };

@@ -31,14 +31,19 @@ const TodoForm = () => {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{
-        display: "flex",
-        gap: 2,
-        mt: 4,
-        justifyContent: "center",
-      }}
+       sx={{
+    display: "flex",
+    gap: 2,
+    mt: 4,
+    flexDirection: {
+      xs: "column",
+      sm: "row",
+    },
+    alignItems: "center",
+  }}
     >
       <TextField
+        fullWidth
         label="Enter Todo"
         variant="outlined"
         value={title}
@@ -49,6 +54,9 @@ const TodoForm = () => {
       <Button
         type="submit"
         variant="contained"
+    sx={{
+        minWidth: 150
+    }}
       >
         Add Todo
       </Button>

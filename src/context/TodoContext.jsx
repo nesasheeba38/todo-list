@@ -2,7 +2,7 @@ import {
   createContext,
   useContext,
   useReducer,
-  useCallback
+  useCallback,
 } from "react";
 
 import todoReducer from "../reducer/todoReducer";
@@ -11,8 +11,8 @@ const TodoContext = createContext();
 
 export const TodoProvider = ({ children }) => {
 
-  const [todos, dispatch] = useReducer(todoReducer,[]);
 
+const [todos, dispatch] = useReducer(todoReducer, []);
   const addTodo = useCallback((title) => {
     dispatch({
       type: "ADD",
@@ -43,6 +43,7 @@ export const TodoProvider = ({ children }) => {
       payload: id,
     });
   },[]);
+  
 
   return (
     <TodoContext.Provider
