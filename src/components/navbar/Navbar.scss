@@ -1,0 +1,129 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  @include glass;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  padding: 1rem 2rem;
+  box-shadow: var(--shadow-sm);
+  
+  @include mobile {
+    padding: 0.85rem 1rem;
+  }
+}
+
+.navbar-container {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+    background: var(--gradient-accent);
+    border-radius: $radius-md;
+    @include flex-center;
+    color: #ffffff;
+    font-weight: 800;
+    font-family: $font-heading;
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .brand-text {
+    font-family: $font-heading;
+    font-weight: 800;
+    font-size: 1.35rem;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.03em;
+    
+    @include mobile {
+      font-size: 1.15rem;
+    }
+  }
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  
+  @include mobile {
+    gap: 0.75rem;
+  }
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: $radius-md;
+  transition: $transition-fast;
+  
+  &:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-tertiary);
+  }
+  
+  &.active {
+    color: var(--primary);
+    background-color: var(--primary-light);
+    font-weight: 600;
+  }
+  
+  @include mobile {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.65rem;
+  }
+}
+
+.theme-toggle-btn {
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-md;
+  @include flex-center;
+  color: var(--text-secondary);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  transition: $transition-fast;
+  
+  &:hover {
+    color: var(--text-primary);
+    background-color: var(--border-color);
+    transform: rotate(15deg);
+  }
+  
+  &:active {
+    transform: scale(0.9);
+  }
+  
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 2;
+    transition: $transition-normal;
+  }
+}

@@ -1,20 +1,11 @@
 import { useState, memo } from "react";
-
-import {
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Box,
-  TextField,
-} from "@mui/material";
-
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import UndoIcon from "@mui/icons-material/Undo";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from "@mui/icons-material/Close";
+import "./TodoItem.scss";
 
 const TodoItem = ({
   todo,
@@ -23,136 +14,85 @@ const TodoItem = ({
   editTodo,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-
   const [newTitle, setNewTitle] = useState(todo.title);
 
-  const handleSave = () => {
+  const handleSave = (e) => {
+    e.preventDefault();
     if (newTitle.trim() === "") return;
-
     editTodo(todo.id, newTitle);
-
     setIsEditing(false);
   };
 
   return (
-    <Card
-      elevation={4}
-      sx={{
-        mb: 2,
-        borderRadius: 3,
-        transition: "0.3s",
-        "&:hover": {
-          transform: "scale(1.02)",
-        },
-      }}
-    >
-      <CardContent>
-        {isEditing ? (
-          <>
-            <TextField
-              fullWidth
+    <div className={`todo-item-card animate-fade-in ${todo.completed ? "completed" : ""}`}>
+      {isEditing ? (
+        <form onSubmit={handleSave} className="todo-edit-container">
+          <div className="edit-input-wrapper">
+            <input
+              type="text"
+              className="input-text"
               value={newTitle}
-              onChange={(e) =>
-                setNewTitle(e.target.value)
-              }
+              onChange={(e) => setNewTitle(e.target.value)}
+              required
+              autoFocus
             />
-
-            <Box
-              sx={{
-                display: "flex",
-                gap: 2,
-                mt: 2,
-                flexWrap: "wrap",
+          </div>
+          <div className="edit-actions">
+            <button type="submit" className="btn btn-success">
+              <SaveIcon fontSize="small" /> Save
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => {
+                setNewTitle(todo.title);
+                setIsEditing(false);
               }}
             >
-              <Button
-                variant="contained"
-                startIcon={<SaveIcon />}
-                onClick={handleSave}
-              >
-                Save
-              </Button>
+              <CloseIcon fontSize="small" /> Cancel
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="todo-item-content">
+          <div
+            className={`todo-check-wrapper ${todo.completed ? "completed" : ""}`}
+            onClick={() => toggleComplete(todo.id)}
+            title={todo.completed ? "Mark Pending" : "Mark Complete"}
+          >
+            {todo.completed ? (
+              <CheckCircleIcon />
+            ) : (
+              <RadioButtonUncheckedIcon />
+            )}
+          </div>
 
-              <Button
-                variant="outlined"
-                startIcon={<CloseIcon />}
-                onClick={() =>
-                  setIsEditing(false)
-                }
-              >
-                Cancel
-              </Button>
-            </Box>
-          </>
-        ) : (
-          <>
-            <Typography
-              variant="h6"
-              sx={{
-                textDecoration: todo.completed
-                  ? "line-through"
-                  : "none",
-                color: todo.completed
-                  ? "text.secondary"
-                  : "text.primary",
-              }}
+          <div className="todo-title-container">
+            <span className="todo-title">{todo.title}</span>
+          </div>
+
+          <div className="todo-actions">
+            <button
+              className="btn btn-warning"
+              onClick={() => setIsEditing(true)}
+              title="Edit Task"
             >
-              {todo.title}
-            </Typography>
+              <EditIcon fontSize="small" />
+              <span>Edit</span>
+            </button>
 
-            <Box
-              sx={{
-                display: "flex",
-                gap: 2,
-                mt: 2,
-                flexWrap: "wrap",
-              }}
+            <button
+              className="btn btn-danger"
+              onClick={() => deleteTodo(todo.id)}
+              title="Delete Task"
             >
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={
-                  todo.completed ? (
-                    <UndoIcon />
-                  ) : (
-                    <CheckCircleIcon />
-                  )
-                }
-                onClick={() =>
-                  toggleComplete(todo.id)
-                }
-              >
-                {todo.completed
-                  ? "Undo"
-                  : "Complete"}
-              </Button>
-
-              <Button
-                variant="contained"
-                color="warning"
-                startIcon={<EditIcon />}
-                onClick={() =>
-                  setIsEditing(true)
-                }
-              >
-                Edit
-              </Button>
-
-              <Button
-                variant="contained"
-                color="error"
-                startIcon={<DeleteIcon />}
-                onClick={() =>
-                  deleteTodo(todo.id)
-                }
-              >
-                Delete
-              </Button>
-            </Box>
-          </>
-        )}
-      </CardContent>
-    </Card>
+              <DeleteIcon fontSize="small" />
+              <span>Delete</span>
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

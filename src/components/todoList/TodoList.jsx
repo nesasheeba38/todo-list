@@ -1,7 +1,6 @@
-import { Box, Typography } from "@mui/material";
 import InboxIcon from "@mui/icons-material/Inbox";
-
 import TodoItem from "../todoItem/TodoItem";
+import "./TodoList.scss";
 
 const TodoList = ({
   todos,
@@ -11,43 +10,18 @@ const TodoList = ({
 }) => {
   if (todos.length === 0) {
     return (
-      <Box
-        sx={{
-          textAlign: "center",
-          mt: 8,
-        }}
-      >
-        <InboxIcon
-          sx={{
-            fontSize: 80,
-            color: "grey.500",
-          }}
-        />
-
-        <Typography
-          variant="h5"
-          color="text.secondary"
-          sx={{ mt: 2 }}
-        >
-          No Todos Found
-        </Typography>
-
-        <Typography
-          variant="body1"
-          color="text.secondary"
-        >
-          Add your first todo to get started.
-        </Typography>
-      </Box>
+      <div className="empty-state glass-card animate-fade-in">
+        <InboxIcon className="empty-icon" />
+        <h3 className="empty-title">No Tasks Found</h3>
+        <p className="empty-desc">
+          Your dashboard is clear! Add some tasks to get started.
+        </p>
+      </div>
     );
   }
 
   return (
-    <Box
-      sx={{
-        mt: 3,
-      }}
-    >
+    <div className="todo-list-container">
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}
@@ -57,7 +31,7 @@ const TodoList = ({
           editTodo={editTodo}
         />
       ))}
-    </Box>
+    </div>
   );
 };
 

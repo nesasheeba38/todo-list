@@ -1,0 +1,41 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.todo-form-container {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.todo-form {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+  width: 100%;
+  
+  @include mobile {
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  
+  .form-group {
+    flex: 2;
+  }
+  
+  .btn-submit {
+    @include button-base;
+    padding: 0 2rem;
+    font-size: 1rem;
+    background: var(--gradient-accent);
+    color: #ffffff;
+    box-shadow: var(--shadow-sm);
+    
+    &:hover {
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-2px);
+    }
+    
+    @include mobile {
+      padding: 0.85rem 1.5rem;
+    }
+  }
+}

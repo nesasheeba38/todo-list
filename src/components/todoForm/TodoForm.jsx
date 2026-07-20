@@ -1,19 +1,14 @@
 import { useState } from "react";
-import { Box, Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
 import { useTodo } from "../../context/TodoContext";
+import "./TodoForm.scss";
 
 const TodoForm = () => {
-
   const [title, setTitle] = useState("");
-
   const { addTodo } = useTodo();
-
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-
     e.preventDefault();
 
     if (title.trim() === "") {
@@ -21,47 +16,30 @@ const TodoForm = () => {
     }
 
     addTodo(title);
-
     setTitle("");
-
     navigate("/");
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-       sx={{
-    display: "flex",
-    gap: 2,
-    mt: 4,
-    flexDirection: {
-      xs: "column",
-      sm: "row",
-    },
-    alignItems: "center",
-  }}
-    >
-      <TextField
-        fullWidth
-        label="Enter Todo"
-        variant="outlined"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        fullWidth
-      />
+    <div className="todo-form-container glass-card animate-fade-in">
+      <form className="todo-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <input
+            type="text"
+            className="input-text"
+            placeholder="What needs to be done?"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            autoFocus
+          />
+        </div>
 
-      <Button
-        type="submit"
-        variant="contained"
-    sx={{
-        minWidth: 150
-    }}
-      >
-        Add Todo
-      </Button>
-
-    </Box>
+        <button type="submit" className="btn-submit">
+          Add Task
+        </button>
+      </form>
+    </div>
   );
 };
 
