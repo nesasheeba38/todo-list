@@ -1,13 +1,17 @@
 import InboxIcon from "@mui/icons-material/Inbox";
 import TodoItem from "../todoItem/TodoItem";
+import { useTodo } from "../../context/TodoContext";
 import "./TodoList.scss";
 
-const TodoList = ({
-  todos,
-  deleteTodo,
-  toggleComplete,
-  editTodo,
-}) => {
+const TodoList = () => {
+
+  const {
+    todos,
+    deleteTodo,
+    toggleComplete,
+    editTodo,
+  } = useTodo();
+
   if (todos.length === 0) {
     return (
       <div className="empty-state glass-card animate-fade-in">

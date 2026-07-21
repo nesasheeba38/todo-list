@@ -31,18 +31,7 @@
   align-items: center;
   gap: 0.5rem;
   
-  .brand-logo {
-    width: 32px;
-    height: 32px;
-    background: var(--gradient-accent);
-    border-radius: $radius-md;
-    @include flex-center;
-    color: #ffffff;
-    font-weight: 800;
-    font-family: $font-heading;
-    box-shadow: var(--shadow-glow);
-  }
-  
+
   .brand-text {
     font-family: $font-heading;
     font-weight: 800;

@@ -3,8 +3,6 @@ import {
   useContext,
   useReducer,
   useCallback,
-  useState,
-  useEffect,
 } from "react";
 
 import todoReducer from "../reducer/todoReducer";
@@ -12,37 +10,22 @@ import todoReducer from "../reducer/todoReducer";
 const TodoContext = createContext();
 
 export const TodoProvider = ({ children }) => {
+
   const [todos, dispatch] = useReducer(todoReducer, []);
-  
-  // Theme state
-  const [theme, setTheme] = useState(() => {
-    const saved = localStorage.getItem("theme");
-    return saved || "dark"; // Default to dark theme for maximum aesthetic impact
-  });
-
-  // Apply theme to document root
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = useCallback(() => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  }, []);
 
   const addTodo = useCallback((title) => {
     dispatch({
       type: "ADD",
       payload: title,
     });
-  },[]);
+  }, []);
 
-  const deleteTodo =useCallback((id) => {
+  const deleteTodo = useCallback((id) => {
     dispatch({
       type: "DELETE",
       payload: id,
     });
-  },[]);
+  }, []);
 
   const editTodo = useCallback((id, title) => {
     dispatch({
@@ -52,14 +35,14 @@ export const TodoProvider = ({ children }) => {
         title,
       },
     });
-  },[]);
+  }, []);
 
   const toggleComplete = useCallback((id) => {
     dispatch({
-      type:"COMPLETE",
+      type: "COMPLETE",
       payload: id,
     });
-  },[]);
+  }, []);
   
 
   return (
@@ -67,11 +50,9 @@ export const TodoProvider = ({ children }) => {
       value={{
         todos,
         addTodo,
-        deleteTodo,        
+        deleteTodo,
         editTodo,
         toggleComplete,
-        theme,
-        toggleTheme,
       }}
     >
       {children}

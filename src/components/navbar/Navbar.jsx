@@ -2,7 +2,7 @@ import { NavLink, Link } from "react-router-dom";
 import { useTodo } from "../../context/TodoContext";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+// import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import "./Navbar.scss";
 
 const Navbar = () => {
@@ -16,7 +16,7 @@ const Navbar = () => {
           <div className="brand-logo">
             ✓
           </div>
-          <span className="brand-text">TaskSphere</span>
+          <span className="brand-text">TodoListApp</span>
         </Link>
 
         <div className="navbar-nav">
