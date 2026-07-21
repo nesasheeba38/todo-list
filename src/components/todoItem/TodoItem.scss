@@ -54,24 +54,15 @@
   width: 100%;
 }
 
-// Custom animated checkmark wrapper
+
 .todo-check-wrapper {
   cursor: pointer;
   @include flex-center;
   color: var(--text-muted);
   transition: $transition-fast;
   
-  &:hover {
-    color: var(--primary);
-    transform: scale(1.1);
-  }
-  
   &.completed {
-    color: var(--success);
-    
-    &:hover {
-      color: var(--danger);
-    }
+    color: var(--success);  
   }
   
   svg {

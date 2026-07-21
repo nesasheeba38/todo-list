@@ -3,6 +3,8 @@ import {
   useContext,
   useReducer,
   useCallback,
+  useState,
+  useEffect,
 } from "react";
 
 import todoReducer from "../reducer/todoReducer";
@@ -10,8 +12,13 @@ import todoReducer from "../reducer/todoReducer";
 const TodoContext = createContext();
 
 export const TodoProvider = ({ children }) => {
-
   const [todos, dispatch] = useReducer(todoReducer, []);
+
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   const addTodo = useCallback((title) => {
     dispatch({
@@ -43,7 +50,12 @@ export const TodoProvider = ({ children }) => {
       payload: id,
     });
   }, []);
-  
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prevTheme) =>
+      prevTheme === "light" ? "dark" : "light"
+    );
+  }, []);
 
   return (
     <TodoContext.Provider
@@ -53,6 +65,8 @@ export const TodoProvider = ({ children }) => {
         deleteTodo,
         editTodo,
         toggleComplete,
+        theme,
+        toggleTheme,
       }}
     >
       {children}
@@ -60,5 +74,4 @@ export const TodoProvider = ({ children }) => {
   );
 };
 
-export const useTodo = () =>
-  useContext(TodoContext);
+export const useTodo = () => useContext(TodoContext);

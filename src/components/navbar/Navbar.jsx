@@ -13,9 +13,6 @@ const Navbar = () => {
       <div className="navbar-container">
         
         <Link to="/" className="navbar-brand">
-          <div className="brand-logo">
-            ✓
-          </div>
           <span className="brand-text">TodoListApp</span>
         </Link>
 

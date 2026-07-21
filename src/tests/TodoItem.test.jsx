@@ -1,140 +1,234 @@
 import { render, screen } from "@testing-library/react";
-import TodoItem from "../components/todoItem/TodoItem";
 import userEvent from "@testing-library/user-event";
+import TodoItem from "../components/todoItem/TodoItem";
 
 describe("TodoItem Component", () => {
+  const todo = {
+    id: 1,
+    title: "Learn React",
+    completed: false,
+  };
+
+  let deleteTodo;
+  let toggleComplete;
+  let editTodo;
+
+  beforeEach(() => {
+    deleteTodo = jest.fn();
+    toggleComplete = jest.fn();
+    editTodo = jest.fn();
+  });
 
   test("should display the todo title", () => {
-
-    const todo = {
-      id: 1,
-      title: "Learn React",
-      completed: false,
-    };
-
     render(
       <TodoItem
         todo={todo}
-        deleteTodo={jest.fn()}
-        toggleComplete={jest.fn()}
-        editTodo={jest.fn()}
+        deleteTodo={deleteTodo}
+        toggleComplete={toggleComplete}
+        editTodo={editTodo}
       />
     );
 
     expect(
       screen.getByText("Learn React")
     ).toBeInTheDocument();
-
   });
 
-});
-test("should call deleteTodo when Delete button is clicked", async () => {
+  test("should call deleteTodo when Delete button is clicked", async () => {
+    const user = userEvent.setup();
 
-  const user = userEvent.setup();
+    render(
+      <TodoItem
+        todo={todo}
+        deleteTodo={deleteTodo}
+        toggleComplete={toggleComplete}
+        editTodo={editTodo}
+      />
+    );
 
-  const deleteTodo = jest.fn();
+    await user.click(
+      screen.getByRole("button", {
+        name: /delete/i,
+      })
+    );
 
-  const todo = {
-    id: 1,
-    title: "Learn React",
-    completed: false,
-  };
-
-  render(
-    <TodoItem
-      todo={todo}
-      deleteTodo={deleteTodo}
-      toggleComplete={jest.fn()}
-      editTodo={jest.fn()}
-    />
-  );
-
-  const deleteButton = screen.getByRole("button", {
-    name: /delete/i,
+    expect(deleteTodo).toHaveBeenCalledWith(1);
   });
 
-  await user.click(deleteButton);
+  test("should call toggleComplete when complete icon is clicked", async () => {
+    const user = userEvent.setup();
 
-  expect(deleteTodo).toHaveBeenCalledWith(1);
+    render(
+      <TodoItem
+        todo={todo}
+        deleteTodo={deleteTodo}
+        toggleComplete={toggleComplete}
+        editTodo={editTodo}
+      />
+    );
 
-});
-test("should call deleteTodo when Delete button is clicked", async () => {
+    await user.click(
+      screen.getByTitle("Mark Complete")
+    );
 
-  const user = userEvent.setup();
-
-  const deleteTodo = jest.fn();
-
-  const todo = {
-    id: 1,
-    title: "Learn React",
-    completed: false,
-  };
-
-  render(
-    <TodoItem
-      todo={todo}
-      deleteTodo={deleteTodo}
-      toggleComplete={jest.fn()}
-      editTodo={jest.fn()}
-    />
-  );
-
-  const deleteButton = screen.getByRole("button", {
-    name: /delete/i,
+    expect(toggleComplete).toHaveBeenCalledWith(1);
   });
 
-  await user.click(deleteButton);
+  test("should enter edit mode", async () => {
+    const user = userEvent.setup();
 
-  expect(deleteTodo).toHaveBeenCalledWith(1);
+    render(
+      <TodoItem
+        todo={todo}
+        deleteTodo={deleteTodo}
+        toggleComplete={toggleComplete}
+        editTodo={editTodo}
+      />
+    );
 
-});
-test("should call editTodo when Save button is clicked", async () => {
+    await user.click(
+      screen.getByRole("button", {
+        name: /edit/i,
+      })
+    );
 
-  const user = userEvent.setup();
-
-  const editTodo = jest.fn();
-
-  const todo = {
-    id: 1,
-    title: "Learn React",
-    completed: false,
-  };
-
-  render(
-    <TodoItem
-      todo={todo}
-      deleteTodo={jest.fn()}
-      toggleComplete={jest.fn()}
-      editTodo={editTodo}
-    />
-  );
-
-  // Click Edit
-  const editButton = screen.getByRole("button", {
-    name: /edit/i,
+    expect(
+      screen.getByDisplayValue("Learn React")
+    ).toBeInTheDocument();
   });
 
-  await user.click(editButton);
+  test("should call editTodo when Save button is clicked", async () => {
+    const user = userEvent.setup();
 
-  // Find the input
-  const input = screen.getByDisplayValue("Learn React");
+    render(
+      <TodoItem
+        todo={todo}
+        deleteTodo={deleteTodo}
+        toggleComplete={toggleComplete}
+        editTodo={editTodo}
+      />
+    );
 
-  // Clear the input
-  await user.clear(input);
+    await user.click(
+      screen.getByRole("button", {
+        name: /edit/i,
+      })
+    );
 
-  // Type new title
-  await user.type(input, "Learn Redux");
+    const input = screen.getByDisplayValue("Learn React");
 
-  // Click Save
-  const saveButton = screen.getByRole("button", {
-    name: /save/i,
+    await user.clear(input);
+    await user.type(input, "Learn Redux");
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /save/i,
+      })
+    );
+
+    expect(editTodo).toHaveBeenCalledWith(
+      1,
+      "Learn Redux"
+    );
   });
 
-  await user.click(saveButton);
+  test("should cancel editing", async () => {
+    const user = userEvent.setup();
 
-  expect(editTodo).toHaveBeenCalledWith(
-    1,
-    "Learn Redux"
-  );
+    render(
+      <TodoItem
+        todo={todo}
+        deleteTodo={deleteTodo}
+        toggleComplete={toggleComplete}
+        editTodo={editTodo}
+      />
+    );
 
+    await user.click(
+      screen.getByRole("button", {
+        name: /edit/i,
+      })
+    );
+
+    const input = screen.getByDisplayValue("Learn React");
+
+    await user.clear(input);
+    await user.type(input, "New Title");
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /cancel/i,
+      })
+    );
+
+    expect(editTodo).not.toHaveBeenCalled();
+
+    expect(
+      screen.getByText("Learn React")
+    ).toBeInTheDocument();
+  });
+
+  test("should not save an empty title", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <TodoItem
+        todo={todo}
+        deleteTodo={deleteTodo}
+        toggleComplete={toggleComplete}
+        editTodo={editTodo}
+      />
+    );
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /edit/i,
+      })
+    );
+
+    const input = screen.getByDisplayValue("Learn React");
+
+    await user.clear(input);
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /save/i,
+      })
+    );
+
+    expect(editTodo).not.toHaveBeenCalled();
+  });
+
+  test("should show 'Mark Pending' when todo is completed", () => {
+    render(
+      <TodoItem
+        todo={{
+          ...todo,
+          completed: true,
+        }}
+        deleteTodo={deleteTodo}
+        toggleComplete={toggleComplete}
+        editTodo={editTodo}
+      />
+    );
+
+    expect(
+      screen.getByTitle("Mark Pending")
+    ).toBeInTheDocument();
+  });
+
+  test("should show 'Mark Complete' when todo is pending", () => {
+    render(
+      <TodoItem
+        todo={todo}
+        deleteTodo={deleteTodo}
+        toggleComplete={toggleComplete}
+        editTodo={editTodo}
+      />
+    );
+
+    expect(
+      screen.getByTitle("Mark Complete")
+    ).toBeInTheDocument();
+  });
 });
